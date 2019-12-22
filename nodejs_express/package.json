@@ -1,0 +1,12 @@
+{
+  "name": "nodejs_express",
+  "version": "0.0.0",
+  "description": "nodejs_express",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
