@@ -31,7 +31,10 @@
     <Content Include="html\index.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="html\Page1.html">
+    <Content Include="html\add_gnglish_words.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="html\view_dict.html">
       <SubType>Code</SubType>
     </Content>
     <Content Include="server.js" />
