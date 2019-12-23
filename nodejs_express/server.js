@@ -12,7 +12,7 @@ const connection = sql.createConnection({
 	user: 'server',
 	database: 'gnglish'
 }).connect((err) => {
-	if (err) throw err;
+	if (err) return console.log(`SQL connection could not be established\n${err}`);
 	console.log('Connected!');
 })
 
@@ -57,7 +57,6 @@ app.post('/add', (req, res) => {
 		}
 	});
 	req.on("end", () => {
-		console.log(body);
 		var word, translation, context, password;
 		var newBody = body.split("&");
 		newBody.forEach((item, index) => {
@@ -75,6 +74,7 @@ app.post('/add', (req, res) => {
 					password = item.split("=")[1];
 					break;
 			}
+			console.log(`An input of\nword: ${word}\ntranslation: ${translation}\ncontext: ${context} was received`);
 		});
 		const priv_connection = sql.createConnection({
 			host: 'localhost',
@@ -85,9 +85,12 @@ app.post('/add', (req, res) => {
 		priv_connection.connect((err) => {
 			if (err) {
 				res.write(`An error occured (possibly wrong password)\n${err}`);
+				console.log(`Incorrect password of ${password} was entered`)
 				res.end();
 			} else {
-				priv_connection.query(`INSERT INTO gnglishwords(word, translation, wordContext) VALUES ("${word}", "${translation}", "${context}");`, (result) => {
+				console.log("Connection created! Password correct.")
+				const sql = `INSERT INTO gnglishwords(word, translation, wordContext) VALUES (?, ?, ?);`
+				priv_connection.query(sql, [word, translation, context], (result) => {
 					console.log(`Query Inserted\n${result}`);
 					res.redirect("/add");
 					res.end();
